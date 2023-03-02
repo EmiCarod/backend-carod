@@ -9,17 +9,17 @@ class productManager{
 
     async getProduct () {
         //parado desde backend-carod/entregas
-        const json = await fs.readFile('./productos.txt',"utf-8");
-        this.produ = JSON.parse(json);
+        const json = fs.readFile('./productos.txt',"utf-8");
+        this.produ = await JSON.parse(json);
         return this.getProduct;
     }
 
     async guardarProductos (){
         const json = JSON.stringify(this.produ, null, 2);
-        await fs.writeFile('./productos.txt', json)
+        fs.writeFile('./productos.txt', json)
     }
 
-    addProduct(producto){
+    async addProduct(producto){
         //agrego id al producto
         if(this.products.length === 0){
             producto.id = 1;
@@ -28,24 +28,27 @@ class productManager{
             producto.id = this.products[this.products.length - 1].id + 1;
         }
         //guardo el producto en el array
-        this.products.push(producto);
+        //espera a que el producto sea cargado con un id generico para hacer el push
+        await this.products.push(producto);
     }
 
-    getProductById (idProducto) {
-        const producto = this.products.find(e => e.id === idProducto);
+    async getProductById (idProducto) {
+        this.producto = await this.products.find(e => e.id === idProducto);
 
         if (!producto){
             console.log ('producto no encontrado')
         
         }
     }
-
+    //no hago async el metodo ya que es el ultimo
+    deleteProduct(producto){
+        fs.unlink(producto, 'producto no existe')
+    }
 }
 
 class Producto {
-        constructor(path, title, description, price, thumbnail, code, stock)
+        constructor(title, description, price, thumbnail, code, stock)
         {
-            this.path = path;
             this.title = title;
             this.description = description;
             this.price = price;
