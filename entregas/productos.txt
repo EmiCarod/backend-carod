@@ -1,0 +1,10 @@
+[
+  {
+    "title": "remera",
+    "description" : "nike",
+    "price" : "200",
+    "thumbnail" : "imagen",
+    "code" : "1234",
+    "stock" : "5",
+  }  
+]
