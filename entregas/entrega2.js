@@ -42,6 +42,7 @@ class productManager{
     }
     //no hago async el metodo ya que es el ultimo
     deleteProduct(producto){
+        //uso fs.unlink para hacer el 'delete' del producto agregado
         fs.unlink(producto, 'producto no existe')
     }
 }
